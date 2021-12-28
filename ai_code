@@ -1,3 +1,4 @@
+#import necessary libraries
 import matplotlib.pyplot as plt
 from keras.datasets import mnist
 from tensorflow.keras.utils import to_categorical
@@ -12,8 +13,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 #plot the first image in the dataset
 plt.imshow(X_train[0])
-#check image shape
-X_train[0].shape
+
+
 #reshape data to fit model
 X_train = X_train.reshape(60000,28,28,1)
 X_test = X_test.reshape(10000,28,28,1)
@@ -36,8 +37,13 @@ model.add(Dense(10, activation='softmax'))
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
 #train model
 model.fit(X_train, y_train,validation_data=(X_test, y_test), epochs=1)
+
 #show predictions for the first 3 images in the test set
 model.predict(X_test[:4])
+
+#show actual results for the first 3 images in the test set
+y_test[:4]
+
 #Defining batch size and performing on-the-fly data augmentation technique to enhance our training data.
 batch_size = 32
 
@@ -76,27 +82,26 @@ model_history = model.fit_generator(
     validation_steps=len(X_test)/batch_size, 
     validation_data=val_generator
 )
-#show actual results for the first 3 images in the test set
-y_test[:4]
+
 
 #After training the custom model see the accuracy performance
 acc = model_history.history['acc']  # taking acc from trained data
 val_acc = model_history.history['val_acc'] #x_axis of graph
 epochs = range(len(acc))
-plt.plot(epochs, acc, 'r', label='Training accuracy')
-plt.plot(epochs, val_acc, 'b', label='Validation accuracy')
-plt.title('Training and validation accuracy')
-plt.legend(loc=0)
-plt.figure()
-plt.show()
+plt.plot(epochs, acc, 'r', label='Training accuracy') #label of trained accuracy with red color
+plt.plot(epochs, val_acc, 'b', label='Validation accuracy') #label of validation accuracy with blue color
+plt.title('Training and validation accuracy') #title of image
+plt.legend(loc=0) #Graphic elements show the signs we specify on the graph.
+plt.figure() #draw data
+plt.show() #display
 
 #After training the custom model see the loss performance
 loss = model_history.history['loss'] # taking loss from trained data
 val_loss = model_history.history['val_loss'] #y_axis graph
 epochs = range(len(acc))
-plt.plot(epochs, loss, 'r', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and Validating Loss')
-plt.legend(loc=0)
-plt.figure()
-plt.show()
+plt.plot(epochs, loss, 'r', label='Training loss') #label of trained loss with red color
+plt.plot(epochs, val_loss, 'b', label='Validation loss') #label of validation loss with blue color
+plt.title('Training and Validating Loss') # title of graph
+plt.legend(loc=0) #Graphic elements show the signs we specify on the graph.
+plt.figure() #draw data
+plt.show() #display
