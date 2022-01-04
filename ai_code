@@ -28,20 +28,22 @@ y_train[0]
 model = Sequential()
 
 #add model layers
+#2 dimensional matricies,creating filter 3x3 matricies,Rectified Linear Activation,shape of our model(size and type of our image)
 model.add(Conv2D(64, kernel_size=3, activation='relu', input_shape=(28,28,1)))
 model.add(Conv2D(32, kernel_size=3, activation='relu'))
-model.add(Flatten())
-model.add(Dense(10, activation='softmax'))
+model.add(Flatten())#serves connection between Conv2D and Dense
+model.add(Dense(10, activation='softmax'))# evaluate between 0-9 for 10 nodes and softmax function.
 
 #compile model using accuracy as a measure of model performance
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
 #train model
+# training data,target data 
 model.fit(X_train, y_train,validation_data=(X_test, y_test), epochs=1)
 
-#show predictions for the first 3 images in the test set
+#show predictions for the first 4 images in the test set
 model.predict(X_test[:4])
 
-#show actual results for the first 3 images in the test set
+#show actual results for the first 4 images in the test set
 y_test[:4]
 
 #Defining batch size and performing on-the-fly data augmentation technique to enhance our training data.
